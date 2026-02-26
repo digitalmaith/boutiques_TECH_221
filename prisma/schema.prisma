@@ -5,10 +5,74 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
+
+// Modèle Magasin
+model Magasin {
+  id        Int       @id @default(autoincrement())
+  nom       String
+  adresse   String
+  ville     String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  employes  Employe[]
+
+  @@unique([nom, ville])
+}
+
+// Modèle Employe
+model Employe {
+  id        Int       @id @default(autoincrement())
+  prenom    String
+  nom       String
+  poste     String    // Enum: Caissier, Vendeur, Manager
+  telephone String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  magasinId Int
+  magasin   Magasin  @relation(fields: [magasinId], references: [id], onDelete: Restrict)
+
+  ventes    Vente[]
+
+  @@index([magasinId])
+}
+
+// Modèle Produit
+model Produit {
+  id        Int       @id @default(autoincrement())
+  libelle   String    @unique
+  prix      Float
+  qteStock  Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  ventes    Vente[]
+}
+
+// Modèle Vente
+model Vente {
+  id            Int      @id @default(autoincrement())
+  dateVente     DateTime
+  montantTotal  Float
+  quantite      Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  employeId     Int
+  employe       Employe @relation(fields: [employeId], references: [id])
+
+  produitId     Int
+  produit       Produit @relation(fields: [produitId], references: [id])
+
+  @@index([employeId])
+  @@index([produitId])
+}
+
