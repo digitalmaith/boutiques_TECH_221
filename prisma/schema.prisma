@@ -10,8 +10,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
+
 
 // Modèle Magasin
 model Magasin {
@@ -75,4 +75,3 @@ model Vente {
   @@index([employeId])
   @@index([produitId])
 }
-

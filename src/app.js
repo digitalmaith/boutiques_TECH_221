@@ -1,0 +1,22 @@
+import cors from "cors";
+import express from "express";
+import morgan from "morgan";
+import router from "./routes/index.js";
+import notFound from "./middlewares/notFound.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+app.use(morgan("dev"));
+
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "API boutiques_TECH_221" });
+});
+
+app.use("/api", router);
+app.use(notFound);
+app.use(errorHandler);
+
+export default app;
