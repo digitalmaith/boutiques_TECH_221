@@ -1,8 +1,6 @@
-import express from "express";
 import magasinRoutes from "./magasin.routes.js";
+import ex from "../config/express.js";
 
-const router = express.Router();
+ex.router.use("/magasins", magasinRoutes);
 
-router.use("/magasins", magasinRoutes);
-
-export default router;
+export default ex.router;
