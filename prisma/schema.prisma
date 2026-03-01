@@ -40,9 +40,10 @@ model Employe {
   nom       String
   poste     Poste    // Enum: Caissier, Vendeur, Manager
   telephone String
-  isDeleted Boolean   @default(false)
+  
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  deletedAt DateTime? 
 
   magasinId Int
   magasin   Magasin  @relation(fields: [magasinId], references: [id], onDelete: Restrict)
