@@ -27,13 +27,20 @@ model Magasin {
   @@unique([nom, ville])
 }
 
+enum Poste {
+  CAISSIER
+  VENDEUR
+  MANAGER
+}
+
 // Modèle Employe
 model Employe {
   id        Int       @id @default(autoincrement())
   prenom    String
   nom       String
-  poste     String    // Enum: Caissier, Vendeur, Manager
+  poste     Poste    // Enum: Caissier, Vendeur, Manager
   telephone String
+  isDeleted Boolean   @default(false)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
