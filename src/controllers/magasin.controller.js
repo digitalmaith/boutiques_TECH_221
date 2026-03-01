@@ -42,6 +42,15 @@ class MagasinController {
       return next(error);
     }
   }
+
+  async create(req, res, next){
+    try {
+      const newMagasin = await magasinService.createMagasin(req.body ?? {});
+      return response(res, 201 , newMagasin);
+    } catch (error) {
+      return next(error);
+    }
+  }
 }
 
 export default new MagasinController();

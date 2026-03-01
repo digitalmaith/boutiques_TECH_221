@@ -1,10 +1,3 @@
-import express from "express";
-import magasinController from "../controllers/magasin.controller.js";
-import validateMiddleware from "../middlewares/validate.js";
-import magasinSchema from "../validations/magasin.schema.js";
-
-const router = express.Router();
-
 /**
  * @swagger
  * tags:
@@ -24,12 +17,6 @@ const router = express.Router();
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/MagasinCreatePayload'
- *           examples:
- *             sample:
- *               value:
- *                 nom: Tech Store
- *                 adresse: Avenue Cheikh Anta Diop
- *                 ville: Dakar
  *     responses:
  *       201:
  *         description: Magasin créé avec succès
@@ -42,7 +29,6 @@ const router = express.Router();
  *       409:
  *         description: Magasin déjà existant
  */
-router.post("/", validateMiddleware(magasinSchema), magasinController.create);
 
 /**
  * @swagger
@@ -64,19 +50,9 @@ router.post("/", validateMiddleware(magasinSchema), magasinController.create);
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/MagasinUpdatePayload'
- *           examples:
- *             sample:
- *               value:
- *                 nom: Tech Center
- *                 adresse: 12 Rue des Lilas
- *                 ville: Dakar
  *     responses:
  *       200:
  *         description: Magasin mis à jour
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/Magasin'
  *       400:
  *         description: Payload invalide ou identifiant invalide
  *       404:
@@ -101,7 +77,3 @@ router.post("/", validateMiddleware(magasinSchema), magasinController.create);
  *       404:
  *         description: Magasin introuvable
  */
-router.put("/:id", validateMiddleware(magasinSchema), magasinController.update);
-router.delete("/:id", magasinController.delete);
-
-export default router;

@@ -19,6 +19,10 @@ class MagasinRepository {
       where: { id },
     });
   }
+
+  async create(data){
+    return prisma.magasin.create({data})
+  }
 }
 
 export default new MagasinRepository();
