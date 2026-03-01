@@ -13,6 +13,17 @@ const options = {
     ],
     components: {
       schemas: {
+        // Dans swagger.js, à l'intérieur de components.schemas
+        MagasinCreatePayload: {
+          type: "object",
+          additionalProperties: false,
+          required: ["nom", "adresse", "ville"],
+          properties: {
+            nom: { type: "string", minLength: 1, maxLength: 255, example: "Tech Center" },
+            adresse: { type: "string", minLength: 1, maxLength: 255, example: "12 Rue des Lilas" },
+            ville: { type: "string", minLength: 1, maxLength: 255, example: "Dakar" }
+          }
+        },
         MagasinUpdatePayload: {
           type: "object",
           additionalProperties: false,
