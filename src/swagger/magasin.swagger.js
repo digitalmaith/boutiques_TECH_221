@@ -17,6 +17,12 @@
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/MagasinCreatePayload'
+ *           examples:
+ *             sample:
+ *               value:
+ *                 nom: Tech Store
+ *                 adresse: Avenue Cheikh Anta Diop
+ *                 ville: Dakar
  *     responses:
  *       201:
  *         description: Magasin créé avec succès
@@ -50,9 +56,19 @@
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/MagasinUpdatePayload'
+ *           examples:
+ *             sample:
+ *               value:
+ *                 nom: Tech Center
+ *                 adresse: 12 Rue des Lilas
+ *                 ville: Dakar
  *     responses:
  *       200:
  *         description: Magasin mis à jour
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Magasin'
  *       400:
  *         description: Payload invalide ou identifiant invalide
  *       404:
