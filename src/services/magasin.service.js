@@ -48,6 +48,20 @@ class MagasinService {
        throw error;
     }
   }
+
+  // récupère tous les magasins
+  async getAllMagasins(){
+    return magasinRepository.findAll();
+  }
+
+  // récupère un magasin par ID
+
+  async getMagasinById(id){
+    if (!id) {
+      return null;
+    }
+    return magasinRepository.findById(id);
+  }
 }
 
 export default new MagasinService();
