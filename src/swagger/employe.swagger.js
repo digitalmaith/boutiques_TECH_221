@@ -125,3 +125,47 @@
  *       404:
  *         description: Employé introuvable
  */
+
+/**
+ * @swagger
+ * /api/employes/{id}/restore:
+ *   patch:
+ *     summary: Restaurer un employé soft-deleted
+ *     tags: [Employes]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           minimum: 1
+ *         description: ID de l'employé à restaurer
+ *     responses:
+ *       200:
+ *         description: Employé restauré avec succès
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Employe'
+ *       400:
+ *         description: ID invalide
+ *       404:
+ *         description: Employé introuvable
+ */
+
+/**
+ * @swagger
+ * /api/employes/deleted:
+ *   get:
+ *     summary: Récupérer tous les employés soft-deleted
+ *     tags: [Employes]
+ *     responses:
+ *       200:
+ *         description: Liste des employés supprimés
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Employe'
+ */

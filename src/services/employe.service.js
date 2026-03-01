@@ -1,5 +1,6 @@
 import employeRepository from "../repositories/employe.repo.js";
 import magasinRepository from "../repositories/magasin.repo.js";
+import httpError from "../utils/httpError.js";
 
 class EmployeService {
   // Créer un employé
@@ -42,6 +43,19 @@ class EmployeService {
   // Soft delete d’un employé
   async deleteEmploye(id) {
     return employeRepository.softDelete(id);
+  }
+
+  // restaurer un employé
+  async restoreEmploye(id) {
+    const employe = await employeRepository.findByIdIncludeDeleted(id); // Vérifie que l'employé existe
+    if (!employe) {
+      throw httpError(404, "Employé introuvable");
+    }
+    return employeRepository.restore(id);
+  }
+
+  async getDeletedEmployes() {
+    return employeRepository.findDeleted();
   }
 }
 

@@ -18,14 +18,14 @@ class EmployeController {
   }
 
   // Récupérer tous les employés non supprimés
-  async getAll(req, res, next) {
-    try {
-      const employes = await employeService.getAll();
-      return response(res, 200, employes);
-    } catch (error) {
-      return next(error);
+    async getAll(req, res, next) {
+      try {
+        const employes = await employeService.getAll();
+        return response(res, 200, employes);
+      } catch (error) {
+        return next(error);
+      }
     }
-  }
 
   // Récupérer un employé par id
   async getById(req, res, next) {
@@ -87,6 +87,30 @@ class EmployeController {
       return next(error);
     }
   }
+
+  // Restaurer un employé soft-deleted
+async restore(req, res, next) {
+  try {
+    const id = Number(req.params.id);
+    if (Number.isNaN(id) || id <= 0) {
+      return next(httpError(400, "id invalide"));
+    }
+
+    const employe = await employeService.restoreEmploye(id);
+    return response(res, 200, employe);
+  } catch (error) {
+    return next(error);
+  }
+}
+
+async getDeleted(req, res, next) {
+  try {
+    const employes = await employeService.getDeletedEmployes();
+    return response(res, 200, employes);
+  } catch (error) {
+    next(error);
+  }
+}
 }
 
 export default new EmployeController();

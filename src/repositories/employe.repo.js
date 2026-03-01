@@ -40,7 +40,31 @@ class EmployeRepository {
         where: filter,
       });
     }
+    // Restaurer un employé
+    async restore(id) {
+      return prisma.employe.update({
+        where: { id },
+        data: { deletedAt: null },
+      });
+    }
+    async findByIdIncludeDeleted(id) {
+      return prisma.employe.findUnique({
+        where: { id }
+      });
+    }
 
+    async findDeleted() {
+      return prisma.employe.findMany({
+        where: {
+          deletedAt: {
+            not: null,
+          },
+        },
+        include: {
+          magasin: true,
+        },
+      });
+    }
 
 }
 

@@ -8,8 +8,11 @@ const router = express.Router();
 
 router.post("/", validateMiddleware(employeSchema), employerController.create );
 router.get("/", employerController.getAll);
+router.get("/deleted", employerController.getDeleted);
 router.get("/:id", employerController.getById);
 router.put("/:id", validateMiddleware(employeSchema), employerController.update);
 router.delete("/:id", employerController.delete);
+router.patch("/:id/restore", employerController.restore);
+
 
 export default router;
