@@ -2,7 +2,7 @@
  * @swagger
  * tags:
  *   name: Magasins
- *   description: Gestion des magasins
+ *   description: Gestion des magasins de Tech_221
  */
 
 /**
