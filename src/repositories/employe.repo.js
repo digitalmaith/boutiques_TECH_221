@@ -34,6 +34,13 @@ class EmployeRepository {
       });
     }
 
+    //  méthode findOne pour vérifier doublon
+    async findOne(filter) {
+      return prisma.employe.findFirst({
+        where: filter,
+      });
+    }
+
 
 }
 

@@ -4,11 +4,20 @@ import magasinRepository from "../repositories/magasin.repo.js";
 class EmployeService {
   // Créer un employé
   async createEmploye(payload) {
-    const magasin = await magasinRepository.findById(payload.magasinId);
-    if (!magasin) throw new Error("Le magasin spécifié n'existe pas");
+  const magasin = await magasinRepository.findById(payload.magasinId);
+  if (!magasin) throw new Error("Le magasin spécifié n'existe pas");
 
-    return employeRepository.create(payload);
-  }
+  // Vérifier doublon avant création
+  const existing = await employeRepository.findOne({
+    prenom: payload.prenom,
+    nom: payload.nom,
+    telephone: payload.telephone,
+    magasinId: payload.magasinId,
+  });
+  if (existing) throw new Error("Employé déjà existant");
+
+  return employeRepository.create(payload);
+}
 
   // Mettre à jour un employé
   async updateEmploye(id, data) {

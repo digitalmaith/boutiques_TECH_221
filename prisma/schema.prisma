@@ -39,7 +39,7 @@ model Employe {
   prenom    String
   nom       String
   poste     Poste    // Enum: Caissier, Vendeur, Manager
-  telephone String
+  telephone String  @unique
   
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
