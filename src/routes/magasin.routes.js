@@ -1,9 +1,9 @@
-import express from "express";
+import e from "../config/express.js";
 import magasinController from "../controllers/magasin.controller.js";
 import validateMiddleware from "../middlewares/validate.js";
 import magasinSchema from "../validations/magasin.schema.js";
 
-const router = express.Router();
+const router = e.router;
 
 /**
  * @swagger
