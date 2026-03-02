@@ -1,11 +1,11 @@
 
-import e from "../config/express.js";
+import express from 'express';
 import venteController from "../controllers/vente.controller.js";
 import validateMiddleware from "../middlewares/validate.js";
 import venteSchema from "../validations/vente.schema.js";
 
 
-const router = e.router;
+const router = express.Router();
 
 /**
  * @swagger
@@ -33,7 +33,7 @@ const router = e.router;
  *               produitId:
  *                 type: integer
  *                 minimum: 1
- *                 example: 2
+ *                 example: 1
  *               quantite:
  *                 type: integer
  *                 minimum: 1
