@@ -44,6 +44,39 @@ const options = {
             updatedAt: { type: "string", format: "date-time" }
           }
         },
+        EmployeCreatePayload: {
+          type: "object",
+          required: ["prenom", "nom", "poste", "telephone", "magasinId"],
+          properties: {
+            prenom: { type: "string", example: "Ali" },
+            nom: { type: "string", example: "Ndiaye" },
+            poste: { 
+              type: "string",
+              enum: ["CAISSIER", "VENDEUR", "MANAGER"],
+              example: "CAISSIER"
+            },
+            telephone: { type: "string", example: "771234567" },
+            magasinId: { type: "integer", example: 1 }
+          }
+        },
+
+        Employe: {
+          type: "object",
+          properties: {
+            id: { type: "integer", example: 1 },
+            prenom: { type: "string", example: "Ali" },
+            nom: { type: "string", example: "Ndiaye" },
+            poste: { 
+              type: "string",
+              enum: ["CAISSIER", "VENDEUR", "MANAGER"]
+            },
+            telephone: { type: "string", example: "771234567" },
+            magasinId: { type: "integer", example: 1 },
+            isDeleted: { type: "boolean", example: false },
+            createdAt: { type: "string", format: "date-time" },
+            updatedAt: { type: "string", format: "date-time" }
+          }
+        },
         ErrorResponse: {
           type: "object",
           properties: {

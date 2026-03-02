@@ -1,0 +1,31 @@
+gestion-produit/
+├─ package.json
+├─ .env
+├─ prisma/
+│  ├─ schema.prisma           # Modèles et relations
+│  └─ migrations/             # Migrations Prisma
+├─ src/
+│  ├─ app.js                  # Initialisation Express et Swagger
+│  ├─ server.js               # Serveur
+│  ├─ controllers/            # Logique des routes
+│  │  ├─ magasin.controller.js
+│  │  └─ employe.controller.js
+│  ├─ services/               # Logique métier
+│  │  ├─ magasin.service.js
+│  │  └─ employe.service.js
+│  ├─ repositories/           # Accès aux données via Prisma
+│  │  ├─ magasin.repo.js
+│  │  └─ employe.repo.js
+│  ├─ routes/                 # Définition des routes
+│  │  ├─ magasin.routes.js
+│  │  └─ employe.routes.js
+|  |─ swagger/
+|  |  ├─ magasin.swagger.js  # documentation du swagger
+│  │  └─ employe.swagger.js
+│  ├─ middlewares/            # Gestion erreurs et validation
+│  │  ├─ errorHandler.js
+│  │  └─ validate.js
+│  ├─ utils/                  # Helpers
+│  │  ├─ httpError.js
+│  │  └─ response.js
+└─ swagger.js                  # Configuration Swagger
