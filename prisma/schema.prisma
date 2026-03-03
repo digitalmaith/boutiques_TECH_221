@@ -61,8 +61,11 @@ model Produit {
   qteStock  Int
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   ventes    Vente[]
+
+  @@index([deletedAt])
 }
 
 // Modèle Vente

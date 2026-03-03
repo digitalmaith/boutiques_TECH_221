@@ -16,7 +16,7 @@ app.use(morgan("dev"));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get("/", (req, res) => {
-  res.status(200).json({ message: "API boutiques_TECH_221" });
+  res.status(200).json({ message: "API boutiques_TECH_221", swagger: "/api-docs" });
 });
 
 app.use("/api", router);

@@ -13,6 +13,7 @@ const options = {
     ],
     components: {
       schemas: {
+<<<<<<< HEAD
         // Dans swagger.js, à l'intérieur de components.schemas
         MagasinCreatePayload: {
           type: "object",
@@ -24,6 +25,8 @@ const options = {
             ville: { type: "string", minLength: 1, maxLength: 255, example: "Dakar" }
           }
         },
+=======
+>>>>>>> origin/workspace
         MagasinUpdatePayload: {
           type: "object",
           additionalProperties: false,
@@ -44,6 +47,7 @@ const options = {
             updatedAt: { type: "string", format: "date-time" }
           }
         },
+<<<<<<< HEAD
         EmployeCreatePayload: {
           type: "object",
           required: ["prenom", "nom", "poste", "telephone", "magasinId"],
@@ -77,6 +81,7 @@ const options = {
             updatedAt: { type: "string", format: "date-time" }
           }
         },
+=======>>>>>>> origin/workspace
         ErrorResponse: {
           type: "object",
           properties: {
@@ -88,7 +93,11 @@ const options = {
       }
     }
   },
-  apis: ['./src/swagger/*.js' , './src/routes/*.js']
+<<<<<<< HEAD
+  apis: ['./src/swagger/*.js']
+=======
+  apis: ['./src/routes/*.js']
+>>>>>>> origin/workspace
 };
 
 const swaggerSpec = swaggerJSDoc(options);

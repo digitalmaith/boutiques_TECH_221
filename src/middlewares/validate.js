@@ -3,7 +3,7 @@ import { errorFormatter } from "./errorHandler.js";
 function validateMiddleware(schema) {
     return (req, res, next) => {
         try {
-            schema.parse(req.body);
+            req.body = schema.parse(req.body);
             next();
         } catch (error) {
             const issues = error.issues || error.errors || [];

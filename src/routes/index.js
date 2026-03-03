@@ -1,8 +1,17 @@
+// Dans votre fichier de routes principal (routes/index.js)
+import express from "express";
 import magasinRoutes from "./magasin.routes.js";
-import ex from "../config/express.js";
 import employeRoutes from "./employe.routes.js"
+import venteRoutes from "./vente.routes.js";
+import produitRoutes from "./produit.routes.js";
 
-ex.router.use("/magasins", magasinRoutes);
-ex.router.use("/employes", employeRoutes);
+// Créez le router directement ici
+const router = express.Router();
 
-export default ex.router;
+// Montez vos sous-routes UNE SEULE FOIS chacune
+router.use("/magasins", magasinRoutes);
+router.use("/produits", produitRoutes);
+router.use("/employes", employeRoutes);
+router.use("/ventes", venteRoutes);
+
+export default router;
