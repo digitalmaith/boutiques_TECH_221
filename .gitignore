@@ -1,8 +1,18 @@
 node_modules
-# Keep environment variables out of version control
 .env
 
+# Prisma generated
 /generated/prisma
-docker
-
 /src/generated/prisma
+
+# Logs
+*.log
+
+# Backup files
+*.save
+
+# OS files
+.DS_Store
+
+# Docker
+docker

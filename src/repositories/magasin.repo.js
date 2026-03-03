@@ -19,6 +19,25 @@ class MagasinRepository {
       where: { id },
     });
   }
+  // creer magasin
+  async create(data){
+    return prisma.magasin.create({data})
+  }
+
+  // récupérer tous les magasins
+  async findAll(){
+    return prisma.magasin.findMany({
+      orderBy: {id: "asc"}
+    });
+  }
+
+  // récupérer un magasin par ID
+
+  async findById(id){
+    return prisma.magasin.findUnique({
+      where: { id },
+    });
+  }
 }
 
 export default new MagasinRepository();

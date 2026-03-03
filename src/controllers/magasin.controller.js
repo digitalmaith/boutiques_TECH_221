@@ -42,6 +42,41 @@ class MagasinController {
       return next(error);
     }
   }
+
+  async create(req, res, next){
+    try {
+      const newMagasin = await magasinService.createMagasin(req.body ?? {});
+      return response(res, 201 , newMagasin);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  //recupérer tous les magasins
+  async getAll(req, res, next){
+    try {
+      const magasins = await magasinService.getAllMagasins();
+      return response(res, 200, magasins);
+    } catch (error) {
+      return next(error)
+    }
+  }
+
+  //recupérer un magasin
+
+  async getById(req, res, next){
+    const id = Number.parseInt(req.params.id, 10);
+    if (Number.isNaN(id) || id <= 0) {
+        return next(httpError(400, "id invalide"));
+    }
+
+    const magasin = await magasinService.getMagasinById(id);
+    if (!magasin) {
+        return next(httpError(404, "magasin introuvable"));
+    }
+
+    return response(res, 200, magasin);
+  }
 }
 
 export default new MagasinController();
