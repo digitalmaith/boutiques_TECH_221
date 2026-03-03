@@ -1,61 +1,80 @@
+import { Prisma } from "@prisma/client";
+import BaseService from "./BaseService.js";
 import employeRepository from "../repositories/employe.repo.js";
 import magasinRepository from "../repositories/magasin.repo.js";
 import httpError from "../utils/httpError.js";
 
-class EmployeService {
-  // Créer un employé
+class EmployeService extends BaseService {
+  constructor() {
+    super(employeRepository);
+  }
+
+  // ==========================
+  // CREATE
+  // ==========================
   async create(payload) {
-  const magasin = await magasinRepository.findById(payload.magasinId);
-  if (!magasin) throw new Error("Le magasin spécifié n'existe pas");
+    try {
+      const magasin = await magasinRepository.findById(payload.magasinId);
+      if (!magasin) {
+        throw httpError(400, "Le magasin spécifié n'existe pas");
+      }
 
-  // Vérifier doublon avant création
-  const existing = await employeRepository.findOne({
-    prenom: payload.prenom,
-    nom: payload.nom,
-    telephone: payload.telephone,
-    magasinId: payload.magasinId,
-  });
-  if (existing) throw new Error("Employé déjà existant");
+      return await super.create(payload);
 
-  return employeRepository.create(payload);
-}
+    } catch (error) {
 
-  // Mettre à jour un employé
+      // 🔥 Interception Prisma
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2002"
+      ) {
+        return Promise.reject(
+          httpError(409, "Le téléphone est déjà utilisé")
+        );
+      }
+
+      throw error;
+    }
+  }
+
+  // ==========================
+  // UPDATE
+  // ==========================
   async update(id, data) {
-    if (data.magasinId) {
-      const magasin = await magasinRepository.findById(data.magasinId);
-      if (!magasin) throw new Error("Le magasin spécifié n'existe pas");
+    const employe = await this.repository.findById(id);
+    if (!employe) return null;
+
+    try {
+      if (data.magasinId) {
+        const magasin = await magasinRepository.findById(data.magasinId);
+        if (!magasin) {
+          throw httpError(400, "Le magasin spécifié n'existe pas");
+        }
+      }
+
+      return await super.update(id, data);
+
+    } catch (error) {
+
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2002"
+      ) {
+        return Promise.reject(
+          httpError(409, "Le téléphone est déjà utilisé")
+        );
+      }
+
+      throw error;
     }
-
-    return employeRepository.update(id, data);
-  }
-
-  // Récupérer tous les employés non supprimés
-  async getAll() {
-    return employeRepository.findAll();
-  }
-
-  // Récupérer un employé par id
-  async getById(id) {
-    return employeRepository.findById(id);
-  }
-
-  // Soft delete d’un employé
-  async delete(id) {
-    return employeRepository.softDelete(id);
-  }
-
-  // restaurer un employé
-  async restore(id) {
-    const employe = await employeRepository.findByIdIncludeDeleted(id); // Vérifie que l'employé existe
-    if (!employe) {
-      throw httpError(404, "Employé introuvable");
-    }
-    return employeRepository.restore(id);
   }
 
   async getDeleted() {
-    return employeRepository.findDeleted();
+    return this.repository.findDeleted();
+  }
+
+  async restore(id) {
+    return this.repository.restore(id);
   }
 }
 

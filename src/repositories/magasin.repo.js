@@ -27,6 +27,7 @@ class MagasinRepository {
   // récupérer tous les magasins
   async findAll(){
     return prisma.magasin.findMany({
+      where: { deletedAt: null },
       orderBy: {id: "asc"}
     });
   }
@@ -36,6 +37,36 @@ class MagasinRepository {
   async findById(id){
     return prisma.magasin.findUnique({
       where: { id },
+    });
+  }
+
+  async softDelete(id) {
+      return prisma.magasin.update({
+        where: { id },
+        data: { deletedAt: new Date() }
+      });
+  }
+
+  async restore(id) {
+      return prisma.magasin.update({
+        where: { id },
+        data: { deletedAt: null }
+      });
+  }
+
+  async findByIdIncludeDeleted(id) {
+    return prisma.magasin.findUnique({
+      where: { id }
+    });
+  }
+
+  async findDeleted() {
+    return prisma.magasin.findMany({
+      where: {
+        deletedAt: {
+          not: null,
+        },
+      },
     });
   }
 }

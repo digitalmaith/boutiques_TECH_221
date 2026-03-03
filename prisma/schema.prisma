@@ -21,6 +21,7 @@ model Magasin {
   ville     String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+  deletedAt DateTime? 
 
   employes  Employe[]
 
