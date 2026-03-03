@@ -4,7 +4,7 @@ import httpError from "../utils/httpError.js";
 
 class EmployeService {
   // Créer un employé
-  async createEmploye(payload) {
+  async create(payload) {
   const magasin = await magasinRepository.findById(payload.magasinId);
   if (!magasin) throw new Error("Le magasin spécifié n'existe pas");
 
@@ -21,7 +21,7 @@ class EmployeService {
 }
 
   // Mettre à jour un employé
-  async updateEmploye(id, data) {
+  async update(id, data) {
     if (data.magasinId) {
       const magasin = await magasinRepository.findById(data.magasinId);
       if (!magasin) throw new Error("Le magasin spécifié n'existe pas");
@@ -41,12 +41,12 @@ class EmployeService {
   }
 
   // Soft delete d’un employé
-  async deleteEmploye(id) {
+  async delete(id) {
     return employeRepository.softDelete(id);
   }
 
   // restaurer un employé
-  async restoreEmploye(id) {
+  async restore(id) {
     const employe = await employeRepository.findByIdIncludeDeleted(id); // Vérifie que l'employé existe
     if (!employe) {
       throw httpError(404, "Employé introuvable");
@@ -54,7 +54,7 @@ class EmployeService {
     return employeRepository.restore(id);
   }
 
-  async getDeletedEmployes() {
+  async getDeleted() {
     return employeRepository.findDeleted();
   }
 }

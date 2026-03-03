@@ -3,7 +3,7 @@ import magasinRepository from "../repositories/magasin.repo.js";
 import httpError from "../utils/httpError.js";
 
 class MagasinService {
-  async updateMagasin(id, payload) {
+  async update(id, payload) {
     const magasin = await magasinRepository.findById(id);
 
     if (!magasin) {
@@ -18,7 +18,7 @@ class MagasinService {
     return magasinRepository.updateById(id, data);
   }
 
-  async deleteMagasin(id) {
+  async delete(id) {
     const magasin = await magasinRepository.findById(id);
 
     if (!magasin) {
@@ -29,7 +29,7 @@ class MagasinService {
     return true;
   }
 
-  async createMagasin(payload){
+  async create(payload){
     // Vérification minimale
     if(!payload.nom || !payload.adresse || !payload.ville){
       throw httpError(400, "nom, adresse et ville sont obligatoires")
@@ -50,13 +50,13 @@ class MagasinService {
   }
 
   // récupère tous les magasins
-  async getAllMagasins(){
+  async getAll(){
     return magasinRepository.findAll();
   }
 
   // récupère un magasin par ID
 
-  async getMagasinById(id){
+  async getById(id){
     if (!id) {
       return null;
     }
