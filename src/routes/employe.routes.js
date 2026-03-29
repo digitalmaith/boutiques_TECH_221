@@ -1,10 +1,10 @@
-import express from "express"
+import e from "../config/express.js";
 import validateMiddleware from "../middlewares/validate.js";
 import employerController from "../controllers/employe.controller.js";
 import employeSchema from "../validations/employe.schema.js";
 
 
-const router = express.Router();
+const router = e.router;
 
 router.post("/", validateMiddleware(employeSchema), employerController.create );
 router.get("/", employerController.getAll);

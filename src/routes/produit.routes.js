@@ -1,7 +1,7 @@
-import express from 'express';
+import e from "../config/express.js";
 import { produitController, validateCreate, validateUpdate } from '../controllers/produit.controller.js';
 
-const router = express.Router();
+const router = e.router;
 
 router.get('/', produitController.getAllProduits);
 router.get('/:id', produitController.getProduitById);
