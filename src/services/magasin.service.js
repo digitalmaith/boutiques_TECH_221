@@ -25,6 +25,12 @@ class MagasinService {
       return null;
     }
 
+    // Vérifier si le magasin contient des employés
+    const employes = await magasinRepository.findEmployesByMagasinId(id);
+    if (employes && employes.length > 0) {
+      throw httpError(400, "Impossible de supprimer ce magasin car il contient des employés. Veuillez d'abord transférer ou archiver les employés.");
+    }
+
     await magasinRepository.deleteById(id);
     return true;
   }

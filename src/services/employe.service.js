@@ -40,8 +40,14 @@ class EmployeService {
     return employeRepository.findById(id);
   }
 
-  // Soft delete d’un employé
+  // Soft delete d'un employé
   async deleteEmploye(id) {
+    // Vérifier si l'employé a des ventes associées
+    const ventes = await employeRepository.findVentesByEmployeId(id);
+    if (ventes && ventes.length > 0) {
+      throw httpError(400, "Impossible de supprimer cet employé car il a des ventes associées. Veuillez d'abord archiver l'employé.");
+    }
+    
     return employeRepository.softDelete(id);
   }
 

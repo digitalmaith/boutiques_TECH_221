@@ -1,24 +1,25 @@
 import prisma from "../config/prisma.js";
 
 class MagasinRepository {
-  findById(id) {
+  async findById(id) {
     return prisma.magasin.findUnique({
       where: { id },
     });
   }
 
-  updateById(id, data) {
+  async updateById(id, data) {
     return prisma.magasin.update({
       where: { id },
       data,
     });
   }
 
-  deleteById(id) {
+  async deleteById(id) {
     return prisma.magasin.delete({
       where: { id },
     });
   }
+
   // creer magasin
   async create(data){
     return prisma.magasin.create({data})
@@ -31,11 +32,13 @@ class MagasinRepository {
     });
   }
 
-  // récupérer un magasin par ID
-
-  async findById(id){
-    return prisma.magasin.findUnique({
-      where: { id },
+  // récupérer les employés d'un magasin
+  async findEmployesByMagasinId(magasinId){
+    return prisma.employe.findMany({
+      where: {
+        magasinId,
+        deletedAt: null
+      }
     });
   }
 }

@@ -86,6 +86,13 @@ class ProduitRepository {
       },
     });
   }
+
+  // récupérer les ventes d'un produit
+  async findVentesByProduitId(produitId) {
+    return prisma.vente.findMany({
+      where: { produitId }
+    });
+  }
 }
 
 export const produitRepository = new ProduitRepository();
