@@ -73,6 +73,7 @@ model Produit {
   libelle     String    @unique
   prix        Float
   qteStock    Int
+  image       String?   // URL Cloudinary de l'image du produit
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   deletedAt   DateTime?
