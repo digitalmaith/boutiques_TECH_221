@@ -9,7 +9,7 @@ const options = {
       description: 'Documentation des routes de l API Boutiques TECH 221',
     },
     servers: [
-      { url: 'http://localhost:3000', description: 'Local' }
+      { url: process.env.SWAGGER_SERVER_URL || 'http://localhost:3000', description: process.env.ENV || 'environment' }
     ],
     components: {
       schemas: {
