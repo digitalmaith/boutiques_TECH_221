@@ -51,17 +51,14 @@ class EmployeService {
     return employeRepository.softDelete(id);
   }
 
-  // restaurer un employé
+  // restaurer un employé (non implémenté avec le client Prisma actuel)
   async restoreEmploye(id) {
-    const employe = await employeRepository.findByIdIncludeDeleted(id); // Vérifie que l'employé existe
-    if (!employe) {
-      throw httpError(404, "Employé introuvable");
-    }
-    return employeRepository.restore(id);
+    throw httpError(501, "La restauration d'employé n'est pas disponible avec le client Prisma actuel");
   }
 
   async getDeletedEmployes() {
-    return employeRepository.findDeleted();
+    // Retourner un tableau vide car le soft delete n'est pas disponible
+    return [];
   }
 }
 

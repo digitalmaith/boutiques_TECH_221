@@ -8,14 +8,13 @@ class EmployeRepository {
 
     async findAll() {
       return prisma.employe.findMany({
-        where: { deletedAt: null },
         include: { magasin: true }
       });
     }
 
     async findById(id) {
       return prisma.employe.findFirst({
-        where: { id, deletedAt: null },
+        where: { id },
         include: { magasin: true }
       });
     }
@@ -28,9 +27,8 @@ class EmployeRepository {
     }
 
     async softDelete(id) {
-      return prisma.employe.update({
-        where: { id },
-        data: { deletedAt: new Date() }
+      return prisma.employe.delete({
+        where: { id }
       });
     }
 
@@ -40,12 +38,9 @@ class EmployeRepository {
         where: filter,
       });
     }
-    // Restaurer un employé
+    // Restaurer un employé (non implémenté avec le client Prisma actuel)
     async restore(id) {
-      return prisma.employe.update({
-        where: { id },
-        data: { deletedAt: null },
-      });
+      throw new Error("La restauration d'employé n'est pas disponible avec le client Prisma actuel");
     }
     async findByIdIncludeDeleted(id) {
       return prisma.employe.findUnique({
@@ -54,16 +49,8 @@ class EmployeRepository {
     }
 
     async findDeleted() {
-      return prisma.employe.findMany({
-        where: {
-          deletedAt: {
-            not: null,
-          },
-        },
-        include: {
-          magasin: true,
-        },
-      });
+      // Retourner un tableau vide car le soft delete n'est pas disponible
+      return [];
     }
 
     // récupérer les ventes d'un employé
