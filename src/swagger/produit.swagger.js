@@ -12,12 +12,16 @@
  *     ProduitCreatePayload:
  *       type: "object"
  *       additionalProperties: false
- *       required: ["libelle", "prix", "qteStock"]
+ *       required: ["libelle", "prix", "qteStock", "categorieId"]
  *       properties:
  *         libelle: { type: "string", minLength: 1, maxLength: 255, example: "Laptop Dell XPS" }
  *         prix: { type: "number", minimum: 0, example: 1299.99 }
  *         qteStock: { type: "integer", minimum: 0, example: 50 }
- *         image: { type: "string", format: "uri", example: "https://res.cloudinary.com/demo/image/upload/v1234567890/produits/laptop-dell-xps.jpg", description: "URL Cloudinary de l'image du produit" }
+ *         categorieId: { type: "integer", minimum: 1, example: 2 }
+ *         image:
+ *           type: "string"
+ *           format: "binary"
+ *           description: "Fichier image du produit"
  * 
  *     ProduitUpdatePayload:
  *       type: "object"
@@ -26,7 +30,11 @@
  *         libelle: { type: "string", minLength: 1, maxLength: 255, example: "Laptop Dell XPS" }
  *         prix: { type: "number", minimum: 0, example: 1299.99 }
  *         qteStock: { type: "integer", minimum: 0, example: 50 }
- *         image: { type: "string", format: "uri", example: "https://res.cloudinary.com/demo/image/upload/v1234567890/produits/laptop-dell-xps.jpg", description: "URL Cloudinary de l'image du produit" }
+ *         categorieId: { type: "integer", minimum: 1, example: 2 }
+ *         image:
+ *           type: "string"
+ *           format: "binary"
+ *           description: "Fichier image du produit"
  * 
  *     Produit:
  *       type: "object"
@@ -35,6 +43,7 @@
  *         libelle: { type: "string", example: "Laptop Dell XPS" }
  *         prix: { type: "number", example: 1299.99 }
  *         qteStock: { type: "integer", example: 50 }
+ *         categorieId: { type: "integer", example: 2 }
  *         image: { type: "string", format: "uri", nullable: true, example: "https://res.cloudinary.com/demo/image/upload/v1234567890/produits/laptop-dell-xps.jpg", description: "URL Cloudinary de l'image du produit" }
  *         deletedAt: { type: "string", format: "date-time", nullable: true }
  *         createdAt: { type: "string", format: "date-time" }
@@ -66,7 +75,7 @@
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             $ref: "#/components/schemas/ProduitCreatePayload"
  *     responses:
@@ -133,7 +142,7 @@
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
  *             $ref: "#/components/schemas/ProduitUpdatePayload"
  *     responses:
