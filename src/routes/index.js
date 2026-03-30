@@ -1,5 +1,6 @@
 // Dans votre fichier de routes principal (routes/index.js)
-import e from "../config/express.js";
+// import e from "../config/express.js";
+import e from "express";
 import magasinRoutes from "./magasin.routes.js";
 import employeRoutes from "./employe.routes.js"
 import venteRoutes from "./vente.routes.js";
@@ -8,7 +9,7 @@ import uploadController from "../controllers/upload.controller.js";
 import { upload, multerErrorHandler } from "../middlewares/upload.js";
 
 // Créez le router directement ici
-const router = e.router;
+const router = e.Router();
 
 // Montez vos sous-routes UNE SEULE FOIS chacune
 router.use("/magasins", magasinRoutes);

@@ -3,6 +3,7 @@ import BaseService from "./BaseService.js";
 import employeRepository from "../repositories/employe.repo.js";
 import magasinRepository from "../repositories/magasin.repo.js";
 import httpError from "../utils/httpError.js";
+import uploadService from "./upload.service.js";
 
 class EmployeService extends BaseService {
   constructor() {
@@ -12,25 +13,30 @@ class EmployeService extends BaseService {
   // ==========================
   // CREATE
   // ==========================
-  async create(payload) {
+  async create(payload, file) {
     try {
       const magasin = await magasinRepository.findById(payload.magasinId);
       if (!magasin) {
         throw httpError(400, "Le magasin spécifié n'existe pas");
       }
 
-      return await super.create(payload);
+      // Upload photo si fournie
+      let photoUrl = null;
+      if (file) {
+        const result = await uploadService.uploadImage(file, {
+          folder: "employes",
+        });
+        photoUrl = result.secure_url;
+      }
+
+      return await super.create({ ...payload, photoUrl });
 
     } catch (error) {
-
-      // 🔥 Interception Prisma
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === "P2002"
       ) {
-        return Promise.reject(
-          httpError(409, "Le téléphone est déjà utilisé")
-        );
+        return Promise.reject(httpError(409, "Le téléphone est déjà utilisé"));
       }
 
       throw error;
@@ -55,14 +61,11 @@ class EmployeService extends BaseService {
       return await super.update(id, data);
 
     } catch (error) {
-
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === "P2002"
       ) {
-        return Promise.reject(
-          httpError(409, "Le téléphone est déjà utilisé")
-        );
+        return Promise.reject(httpError(409, "Le téléphone est déjà utilisé"));
       }
 
       throw error;
