@@ -9,13 +9,16 @@ async function seed() {
     prisma.magasin.deleteMany(),
   ]);
 
-  await prisma.magasin.createMany({
-    data: [
-      { nom: "Tech Center", adresse: "12 Rue des Lilas", ville: "Dakar" },
-      { nom: "Smart Zone", adresse: "45 Avenue Bourguiba", ville: "Thiès" },
-      { nom: "Digital Hub", adresse: "8 Boulevard Kennedy", ville: "Saint-Louis" },
-    ],
-  });
+  const magasinData = [
+    { nom: "Tech Center", adresse: "12 Rue des Lilas", ville: "Dakar" },
+    { nom: "Smart Zone", adresse: "45 Avenue Bourguiba", ville: "Thiès" },
+    { nom: "Digital Hub", adresse: "8 Boulevard Kennedy", ville: "Saint-Louis" },
+  ];
+
+  const magasins = [];
+  for (const data of magasinData) {
+    magasins.push(await prisma.magasin.create({ data }));
+  }
 
   await prisma.categorie.createMany({
     data: [
@@ -61,12 +64,16 @@ async function seed() {
     ],
   });
 
-  const magasins = await prisma.magasin.findMany({ orderBy: { id: "asc" } });
+  if (magasins.length < 3) {
+    throw new Error("Seed invalide: magasins insuffisants pour créer les employés.");
+  }
+
   const produits = await prisma.produit.findMany({ orderBy: { id: "asc" } });
 
   await prisma.employe.createMany({
     data: [
       {
+        matricule: "EMP-0001",
         prenom: "Awa",
         nom: "Ndiaye",
         poste: "MANAGER",
@@ -74,6 +81,7 @@ async function seed() {
         magasinId: magasins[0].id,
       },
       {
+        matricule: "EMP-0002",
         prenom: "Moussa",
         nom: "Diop",
         poste: "VENDEUR",
@@ -81,6 +89,7 @@ async function seed() {
         magasinId: magasins[0].id,
       },
       {
+        matricule: "EMP-0003",
         prenom: "Fatou",
         nom: "Seck",
         poste: "CAISSIER",
@@ -88,6 +97,7 @@ async function seed() {
         magasinId: magasins[1].id,
       },
       {
+        matricule: "EMP-0004",
         prenom: "Cheikh",
         nom: "Fall",
         poste: "VENDEUR",
