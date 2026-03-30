@@ -96,6 +96,21 @@ class EmployeService extends BaseService {
   async restore(id) {
     return this.repository.restore(id);
   }
+
+  // ==========================
+  // DELETE (soft) + delete image
+  // ==========================
+  async delete(id) {
+    const employe = await this.repository.findById(id);
+    if (!employe) return null;
+
+    if (employe.photoUrl) {
+      await uploadService.deleteImage(employe.photoUrl);
+    }
+
+    await this.repository.softDelete(id);
+    return true;
+  }
 }
 
 export default new EmployeService();

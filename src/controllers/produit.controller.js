@@ -2,8 +2,9 @@ import produitService from '../services/produit.service.js';
 import { createProduitSchema, updateProduitSchema } from '../validations/produit.schema.js';
 import validateMiddleware from '../middlewares/validate.js';
 import uploadService from "../services/upload.service.js";
+import BaseController from './BaseController.js';
 
-class ProduitController {
+class ProduitController extends BaseController{
   async getAllProduits(req, res) {
     try {
       const produits = await produitService.getAllProduits();

@@ -1,5 +1,6 @@
 import { produitRepository } from "../repositories/produit.repo.js";
 import { createProduitSchema, updateProduitSchema } from "../validations/produit.schema.js";
+import uploadService from "./upload.service.js";
 
 class ProduitService {
   async getAllProduits() {
@@ -54,6 +55,9 @@ class ProduitService {
       console.log('Données reçues pour la mise à jour:', data);
       const validatedData = updateProduitSchema.parse(data);
       console.log('Données validées:', validatedData);
+      if (validatedData.image && existingProduit.image) {
+        await uploadService.deleteImage(existingProduit.image);
+      }
       const updatedProduit = await produitRepository.update(id, validatedData);
       console.log('Produit mis à jour:', updatedProduit);
       return updatedProduit;
@@ -76,6 +80,9 @@ class ProduitService {
       const ventes = await produitRepository.findVentesByProduitId(id);
       if (ventes && ventes.length > 0) {
         throw new Error("Impossible de supprimer ce produit car il a des ventes associées. Veuillez d'abord archiver le produit.", { cause: { status: 400 } });
+      }
+      if (existingProduit.image) {
+        await uploadService.deleteImage(existingProduit.image);
       }
       
       const deletedProduit = await produitRepository.delete(id);

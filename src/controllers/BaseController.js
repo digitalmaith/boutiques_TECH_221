@@ -6,7 +6,6 @@ class BaseController {
         
     }
     
-
     create = async (req, res, next) => {
         try {
             const newResource = await this.service.create(req.body ?? {});
