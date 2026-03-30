@@ -6,6 +6,17 @@ class EmployeRepository extends BaseRepository {
     super(prisma.employe); // passe le modèle Prisma
   }
 
+  // Récupère le dernier employé créé cette année (incluant soft-deleted)
+  async findLastMatriculeOfYear(year) {
+    return prisma.employe.findFirst({
+      where: {
+        matricule: {
+          startsWith: `EMP-${year}-`,
+        },
+      },
+      orderBy: { matricule: "desc" },
+    });
+  }
 
 }
 
