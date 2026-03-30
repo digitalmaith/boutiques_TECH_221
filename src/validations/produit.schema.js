@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import z from "../config/zod.js";
 
 // Schéma de validation pour la création d'un produit
 export const createProduitSchema = z.object({

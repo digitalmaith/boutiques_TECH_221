@@ -1,43 +1,11 @@
 import prisma from "../config/prisma.js";
+import BaseRepository from "./BaseRepository.js";
 
-class MagasinRepository {
-  findById(id) {
-    return prisma.magasin.findUnique({
-      where: { id },
-    });
+class MagasinRepository extends BaseRepository {
+  constructor() {
+    super(prisma.magasin); // passe le modèle Prisma
   }
 
-  updateById(id, data) {
-    return prisma.magasin.update({
-      where: { id },
-      data,
-    });
-  }
-
-  deleteById(id) {
-    return prisma.magasin.delete({
-      where: { id },
-    });
-  }
-  // creer magasin
-  async create(data){
-    return prisma.magasin.create({data})
-  }
-
-  // récupérer tous les magasins
-  async findAll(){
-    return prisma.magasin.findMany({
-      orderBy: {id: "asc"}
-    });
-  }
-
-  // récupérer un magasin par ID
-
-  async findById(id){
-    return prisma.magasin.findUnique({
-      where: { id },
-    });
-  }
 }
 
 export default new MagasinRepository();

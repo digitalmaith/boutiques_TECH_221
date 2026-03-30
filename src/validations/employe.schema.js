@@ -1,4 +1,4 @@
-import { z } from "zod";
+import z from "../config/zod.js";
 
 const employeSchema = z.object({
     prenom: z.string().min(2).max(100),
