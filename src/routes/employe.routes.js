@@ -1,7 +1,7 @@
 import e from "express";
 import validateMiddleware from "../middlewares/validate.js";
 import employerController from "../controllers/employe.controller.js";
-import employeSchema from "../validations/employe.schema.js";
+import employeSchema, { employeUpdateSchema } from "../validations/employe.schema.js";
 import { upload, multerErrorHandler } from "../middlewares/upload.js";
 
 const router = e.Router();
@@ -9,6 +9,17 @@ const router = e.Router();
 const parseFormDataBody = (req, res, next) => {
   if (req.body?.magasinId) {
     req.body.magasinId = Number(req.body.magasinId);
+  }
+  next();
+};
+
+const stripEmptyStrings = (req, res, next) => {
+  if (req.body) {
+    for (const [key, value] of Object.entries(req.body)) {
+      if (value === "") {
+        delete req.body[key];
+      }
+    }
   }
   next();
 };
@@ -31,7 +42,8 @@ router.put(
   upload.single("photo"),           
   multerErrorHandler,
   parseFormDataBody,
-  validateMiddleware(employeSchema),
+  stripEmptyStrings,
+  validateMiddleware(employeUpdateSchema),
   employerController.update
 );
 

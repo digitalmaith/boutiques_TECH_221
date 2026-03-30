@@ -6,4 +6,7 @@ const categorieSchema = z.object({
   sousCategorie: z.string().max(255).optional(),
 });
 
+const categorieUpdateSchema = categorieSchema.partial();
+
+export { categorieSchema, categorieUpdateSchema };
 export default categorieSchema;

@@ -64,10 +64,12 @@ model Categorie {
   sousCategorie String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
 
   produits      Produit[]
 
   @@unique([code, sousCategorie])
+  @@index([deletedAt])
 }
 
 // Modèle Produit

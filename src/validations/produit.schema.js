@@ -11,3 +11,4 @@ export const createProduitSchema = z.object({
 
 // Schéma de validation pour la mise à jour d'un produit
 export const updateProduitSchema = createProduitSchema.partial();
+

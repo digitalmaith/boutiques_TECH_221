@@ -1,7 +1,7 @@
 import express from "./../config/express.js";
 import categorieController from "../controllers/categorie.controller.js";
 import validateMiddleware from "../middlewares/validate.js";
-import categorieSchema from "../validations/categorie.schema.js";
+import categorieSchema, { categorieUpdateSchema } from "../validations/categorie.schema.js";
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ const router = express.Router();
 router.post("/", validateMiddleware(categorieSchema), categorieController.create);
 router.get("/", categorieController.getAll);
 router.get("/:id", categorieController.getById);
-router.put("/:id", validateMiddleware(categorieSchema), categorieController.update);
+router.put("/:id", validateMiddleware(categorieUpdateSchema), categorieController.update);
 router.delete("/:id", categorieController.delete);
 
 export default router;

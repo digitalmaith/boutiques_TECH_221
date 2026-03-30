@@ -1,19 +1,37 @@
 import prisma from "../config/prisma.js";
+import BaseRepository from "./BaseRepository.js";
 
-class CategorieRepository {
-  async create(data) {
-    return prisma.categorie.create({ data });
+class CategorieRepository extends BaseRepository {
+
+  constructor () {
+    super(prisma.categorie)
   }
 
-  async findAll() {
-    return prisma.categorie.findMany({
-      orderBy: { id: "asc" }
+  // Categorie n'a pas de deletedAt, donc on surcharge les méthodes
+  async findAll(options = {}) {
+    return this.model.findMany({
+      ...options,
     });
   }
 
-  async findById(id) {
-    return prisma.categorie.findUnique({
-      where: { id }
+  async findById(id, options = {}) {
+    return this.model.findFirst({
+      where: { id },
+      ...options,
+    });
+  }
+
+  async findByIdIncludeDeleted(id, options = {}) {
+    return this.model.findUnique({
+      where: { id },
+      ...options,
+    });
+  }
+
+  // Pas de soft delete sur Categorie => suppression directe
+  async softDelete(id) {
+    return this.model.delete({
+      where: { id },
     });
   }
 
@@ -25,19 +43,6 @@ class CategorieRepository {
           sousCategorie: sousCategorie || null
         }
       }
-    });
-  }
-
-  async update(id, data) {
-    return prisma.categorie.update({
-      where: { id },
-      data
-    });
-  }
-
-  async delete(id) {
-    return prisma.categorie.delete({
-      where: { id }
     });
   }
 

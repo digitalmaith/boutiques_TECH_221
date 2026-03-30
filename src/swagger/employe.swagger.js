@@ -114,12 +114,6 @@
  *         multipart/form-data:
  *           schema:
  *             type: object
- *             required:
- *               - prenom
- *               - nom
- *               - poste
- *               - telephone
- *               - magasinId
  *             properties:
  *               prenom:
  *                 type: string

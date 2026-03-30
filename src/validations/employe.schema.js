@@ -13,4 +13,7 @@ const employeSchema = z.object({
 
   magasinId: z.number().int().positive()
 });
+const employeUpdateSchema = employeSchema.partial();
+
+export { employeUpdateSchema };
 export default employeSchema;
