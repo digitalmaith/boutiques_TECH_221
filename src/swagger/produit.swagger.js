@@ -12,11 +12,13 @@
  *     ProduitCreatePayload:
  *       type: "object"
  *       additionalProperties: false
- *       required: ["libelle", "prix", "qteStock"]
+ *       required: ["libelle", "prix", "qteStock", "categorieId"]
  *       properties:
  *         libelle: { type: "string", minLength: 1, maxLength: 255, example: "Laptop Dell XPS" }
  *         prix: { type: "number", minimum: 0, example: 1299.99 }
  *         qteStock: { type: "integer", minimum: 0, example: 50 }
+ *         categorieId: { type: "integer", minimum: 1, example: 1 }
+ *         image: { type: "string", format: "uri", example: "https://res.cloudinary.com/demo/image/upload/v1234567890/produits/laptop-dell-xps.jpg", description: "URL Cloudinary de l'image du produit" }
  * 
  *     ProduitUpdatePayload:
  *       type: "object"
@@ -25,6 +27,8 @@
  *         libelle: { type: "string", minLength: 1, maxLength: 255, example: "Laptop Dell XPS" }
  *         prix: { type: "number", minimum: 0, example: 1299.99 }
  *         qteStock: { type: "integer", minimum: 0, example: 50 }
+ *         categorieId: { type: "integer", minimum: 1, example: 1 }
+ *         image: { type: "string", format: "uri", example: "https://res.cloudinary.com/demo/image/upload/v1234567890/produits/laptop-dell-xps.jpg", description: "URL Cloudinary de l'image du produit" }
  * 
  *     Produit:
  *       type: "object"
@@ -33,6 +37,7 @@
  *         libelle: { type: "string", example: "Laptop Dell XPS" }
  *         prix: { type: "number", example: 1299.99 }
  *         qteStock: { type: "integer", example: 50 }
+ *         image: { type: "string", format: "uri", nullable: true, example: "https://res.cloudinary.com/demo/image/upload/v1234567890/produits/laptop-dell-xps.jpg", description: "URL Cloudinary de l'image du produit" }
  *         deletedAt: { type: "string", format: "date-time", nullable: true }
  *         createdAt: { type: "string", format: "date-time" }
  *         updatedAt: { type: "string", format: "date-time" }
@@ -63,9 +68,31 @@
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: "#/components/schemas/ProduitCreatePayload"
+ *             type: object
+ *             required:
+ *               - libelle
+ *               - prix
+ *               - qteStock
+ *               - categorieId
+ *             properties:
+ *               libelle:
+ *                 type: string
+ *                 example: "Laptop Dell XPS"
+ *               prix:
+ *                 type: number
+ *                 example: 1299.99
+ *               qteStock:
+ *                 type: integer
+ *                 example: 50
+ *               categorieId:
+ *                 type: integer
+ *                 example: 1
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *                 description: Image du produit (JPEG/PNG, max 2Mo) - optionnelle
  *     responses:
  *       201:
  *         description: Créé avec succès
@@ -130,9 +157,26 @@
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: "#/components/schemas/ProduitUpdatePayload"
+ *             type: object
+ *             properties:
+ *               libelle:
+ *                 type: string
+ *                 example: "Laptop Dell XPS"
+ *               prix:
+ *                 type: number
+ *                 example: 1299.99
+ *               qteStock:
+ *                 type: integer
+ *                 example: 50
+ *               categorieId:
+ *                 type: integer
+ *                 example: 1
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *                 description: Nouvelle image (JPEG/PNG, max 2Mo) - optionnelle
  *     responses:
  *       200:
  *         description: Mise à jour réussie

@@ -28,7 +28,7 @@ router.get("/:id", employerController.getById);
 
 router.put(
   "/:id",
-  upload.single("photo"),             // ✅ multer sur le PUT aussi
+  upload.single("photo"),           
   multerErrorHandler,
   parseFormDataBody,
   validateMiddleware(employeSchema),
