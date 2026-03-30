@@ -1,4 +1,4 @@
-import express from "./../config/express.js";
+import express from "express"
 import validateMiddleware from "../middlewares/validate.js";
 import employerController from "../controllers/employe.controller.js";
 import employeSchema from "../validations/employe.schema.js";
