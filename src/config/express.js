@@ -4,8 +4,5 @@ const express = e;
 
 const router = e.Router();
 
-export default {
-    express,
-    router
-}
+export default express;
 
