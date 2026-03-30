@@ -41,6 +41,7 @@ model Employe {
   nom       String
   poste     Poste    // Enum: Caissier, Vendeur, Manager
   telephone String  @unique
+   photoUrl    String?
   
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
