@@ -111,9 +111,36 @@
  *     requestBody:
  *       required: true
  *       content:
- *         application/json:
+ *         multipart/form-data:
  *           schema:
- *             $ref: '#/components/schemas/EmployeCreatePayload'
+ *             type: object
+ *             required:
+ *               - prenom
+ *               - nom
+ *               - poste
+ *               - telephone
+ *               - magasinId
+ *             properties:
+ *               prenom:
+ *                 type: string
+ *                 example: modifier
+ *               nom:
+ *                 type: string
+ *                 example: modifier
+ *               poste:
+ *                 type: string
+ *                 enum: [CAISSIER, VENDEUR, MANAGER]
+ *                 example: CAISSIER
+ *               telephone:
+ *                 type: string
+ *                 example: "771234567"
+ *               magasinId:
+ *                 type: integer
+ *                 example: 1
+ *               photo:
+ *                 type: string
+ *                 format: binary
+ *                 description: Nouvelle photo (JPEG/PNG, max 2Mo) - optionnelle
  *     responses:
  *       200:
  *         description: Employé mis à jour
@@ -124,7 +151,6 @@
  *       404:
  *         description: Employé introuvable
  */
-
 /**
  * @swagger
  * /api/employes/{id}:

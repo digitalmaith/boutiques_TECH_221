@@ -37,6 +37,7 @@ enum Poste {
 // Modèle Employe
 model Employe {
   id        Int       @id @default(autoincrement())
+  matricule String    @unique
   prenom    String
   nom       String
   poste     Poste    // Enum: Caissier, Vendeur, Manager

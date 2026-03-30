@@ -49,8 +49,20 @@ async function uploadImage(file, options = {}) {
   });
 }
 
+// ✅ Nouvelle fonction — supprime une image Cloudinary depuis son URL
+async function deleteImage(photoUrl) {
+  if (!photoUrl) return;
+  // https://res.cloudinary.com/<cloud>/image/upload/v123/employes/photo.jpg
+  // → public_id = "employes/photo"
+  const parts = photoUrl.split("/");
+  const folderAndFile = parts.slice(-2).join("/");
+  const publicId = folderAndFile.replace(/\.[^/.]+$/, "");
+  await cloudinary.uploader.destroy(publicId);
+}
+
 export default {
   uploadImage,
+  deleteImage,
   MAX_FILE_SIZE,
   allowedMimeTypes,
 };
