@@ -71,6 +71,13 @@ class ProduitService {
     try {
       const existingProduit = await this.getProduitById(id);
       console.log('Suppression du produit:', existingProduit);
+      
+      // Vérifier si le produit a des ventes associées
+      const ventes = await produitRepository.findVentesByProduitId(id);
+      if (ventes && ventes.length > 0) {
+        throw new Error("Impossible de supprimer ce produit car il a des ventes associées. Veuillez d'abord archiver le produit.", { cause: { status: 400 } });
+      }
+      
       const deletedProduit = await produitRepository.delete(id);
       console.log('Produit supprimé:', deletedProduit);
       return deletedProduit;

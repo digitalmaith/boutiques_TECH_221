@@ -37,8 +37,37 @@ class MagasinService extends BaseService {
     if (payload.adresse !== undefined) data.adresse = payload.adresse;
     if (payload.ville !== undefined) data.ville = payload.ville;
 
+    return magasinRepository.updateById(id, data);
+  }
+
+  async deleteMagasin(id) {
+    const magasin = await magasinRepository.findById(id);
+
+    if (!magasin) {
+      return null;
+    }
+
+    // Vérifier si le magasin contient des employés
+    const employes = await magasinRepository.findEmployesByMagasinId(id);
+    if (employes && employes.length > 0) {
+      throw httpError(400, "Impossible de supprimer ce magasin car il contient des employés. Veuillez d'abord transférer ou archiver les employés.");
+    }
+
+    await magasinRepository.deleteById(id);
+    return true;
+  }
+
+  async createMagasin(payload){
+    // Vérification minimale
+    if(!payload.nom || !payload.adresse || !payload.ville){
+      throw httpError(400, "nom, adresse et ville sont obligatoires")
+    }
+
+    // On essaie de créer le magasin via le repository
+
     try {
-      return await this.repository.updateById(id, data);
+      const newMagasin = await magasinRepository.create(payload);
+      return newMagasin
     } catch (error) {
       if (error.code === "P2002") {
         throw httpError(409, "Ce magasin existe déjà dans cette ville");

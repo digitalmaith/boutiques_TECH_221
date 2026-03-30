@@ -46,7 +46,7 @@ model Employe {
   
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  deletedAt DateTime? 
+  deletedAt DateTime?
 
   magasinId Int
   magasin   Magasin  @relation(fields: [magasinId], references: [id], onDelete: Restrict)
@@ -56,19 +56,38 @@ model Employe {
   @@index([magasinId])
 }
 
+// Modèle Categorie
+model Categorie {
+  id            Int       @id @default(autoincrement())
+  code          String
+  libelle       String
+  sousCategorie String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  produits      Produit[]
+
+  @@unique([code, sousCategorie])
+}
+
 // Modèle Produit
 model Produit {
-  id        Int       @id @default(autoincrement())
-  libelle   String    @unique
-  prix      Float
-  qteStock  Int
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+  id          Int       @id @default(autoincrement())
+  libelle     String    @unique
+  prix        Float
+  qteStock    Int
+  image       String?   // URL Cloudinary de l'image du produit
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
 
-  ventes    Vente[]
+  categorieId Int
+  categorie   Categorie @relation(fields: [categorieId], references: [id])
+
+  ventes      Vente[]
 
   @@index([deletedAt])
+  @@index([categorieId])
 }
 
 // Modèle Vente

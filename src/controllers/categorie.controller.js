@@ -2,7 +2,7 @@ import categorieService from "../services/categorie.service.js";
 import httpError from "../utils/httpError.js";
 import response from "../utils/response.js";
 
-class CategorieController extends BaseController {
+class CategorieController {
   async create(req, res, next) {
     try {
       const categorie = await categorieService.createCategorie(req.body);

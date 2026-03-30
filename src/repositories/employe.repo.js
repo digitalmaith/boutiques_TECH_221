@@ -18,6 +18,13 @@ class EmployeRepository extends BaseRepository {
     });
   }
 
+    // récupérer les ventes d'un employé
+    async findVentesByEmployeId(employeId) {
+      return prisma.vente.findMany({
+        where: { employeId }
+      });
+    }
+
 }
 
 export default new EmployeRepository();
