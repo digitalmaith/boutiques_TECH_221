@@ -12,6 +12,17 @@ datasource db {
   provider = "postgresql"
 }
 
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique(map: "User_email_unique")
+  password  String
+  nom       String
+  prenom    String
+  role      String    @default("USER")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
 
 // Modèle Magasin
 model Magasin {

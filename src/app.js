@@ -13,7 +13,16 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  swaggerOptions: {
+    persistAuthorization: true,
+  },
+  customCss: `
+    .swagger-ui .topbar { display: block }
+    .swagger-ui .auth-btn { display: block }
+  `,
+  customSiteTitle: "Boutiques TECH 221 API Docs",
+}));
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "API boutiques_TECH_221", swagger: "/api-docs" });

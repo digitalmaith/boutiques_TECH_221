@@ -18,12 +18,10 @@ class CategorieRepository {
   }
 
   async findByCodeAndSousCategorie(code, sousCategorie) {
-    return prisma.categorie.findUnique({
+    return prisma.categorie.findFirst({
       where: {
-        code_sousCategorie: {
-          code,
-          sousCategorie: sousCategorie || null
-        }
+        code,
+        sousCategorie: sousCategorie === undefined ? null : sousCategorie
       }
     });
   }

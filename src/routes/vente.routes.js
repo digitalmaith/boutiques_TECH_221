@@ -3,9 +3,12 @@ import express from 'express';
 import venteController from "../controllers/vente.controller.js";
 import validateMiddleware from "../middlewares/validate.js";
 import venteSchema from "../validations/vente.schema.js";
+import { authMiddleware } from "../middlewares/auth.js";
 
 
 const router = express.Router();
+
+router.post("/", authMiddleware, validateMiddleware(venteSchema), venteController.create);
 
 /**
  * @swagger
@@ -76,6 +79,4 @@ const router = express.Router();
  *             schema:
  *               $ref: '#/components/schemas/ErrorResponse'
  */
-router.post("/", validateMiddleware(venteSchema), venteController.create);
-
 export default router;

@@ -3,10 +3,10 @@ import httpError from "../utils/httpError.js";
 
 class CategorieService {
   async createCategorie(payload) {
-    // Vérifier si la catégorie existe déjà avec le même code et sousCategorie
+    const sousCategorie = payload.sousCategorie === undefined ? null : payload.sousCategorie;
     const existing = await categorieRepository.findByCodeAndSousCategorie(
       payload.code,
-      payload.sousCategorie
+      sousCategorie
     );
     
     if (existing) {
@@ -37,7 +37,7 @@ class CategorieService {
     // Vérifier si la nouvelle combinaison code/sousCategorie existe déjà
     if (payload.code || payload.sousCategorie !== undefined) {
       const code = payload.code || categorie.code;
-      const sousCategorie = payload.sousCategorie !== undefined ? payload.sousCategorie : categorie.sousCategorie;
+      const sousCategorie = payload.sousCategorie !== undefined ? (payload.sousCategorie || null) : categorie.sousCategorie;
       
       const existing = await categorieRepository.findByCodeAndSousCategorie(code, sousCategorie);
       if (existing && existing.id !== id) {

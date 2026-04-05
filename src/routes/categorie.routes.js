@@ -2,14 +2,14 @@ import express from "express";
 import categorieController from "../controllers/categorie.controller.js";
 import validateMiddleware from "../middlewares/validate.js";
 import categorieSchema from "../validations/categorie.schema.js";
+import { authMiddleware } from "../middlewares/auth.js";
 
 const router = express.Router();
 
-// CRUD Categorie
-router.post("/", validateMiddleware(categorieSchema), categorieController.create);
-router.get("/", categorieController.getAll);
-router.get("/:id", categorieController.getById);
-router.put("/:id", validateMiddleware(categorieSchema), categorieController.update);
-router.delete("/:id", categorieController.delete);
+router.post("/", authMiddleware, validateMiddleware(categorieSchema), categorieController.create);
+router.get("/", authMiddleware, categorieController.getAll);
+router.get("/:id", authMiddleware, categorieController.getById);
+router.put("/:id", authMiddleware, validateMiddleware(categorieSchema), categorieController.update);
+router.delete("/:id", authMiddleware, categorieController.delete);
 
 export default router;

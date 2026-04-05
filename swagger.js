@@ -12,8 +12,50 @@ const options = {
       { url: 'http://localhost:3000', description: 'Local' }
     ],
     components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
       schemas: {
-        // Dans swagger.js, à l'intérieur de components.schemas
+        // Auth schemas
+        RegisterPayload: {
+          type: "object",
+          required: ["email", "password", "nom", "prenom"],
+          properties: {
+            email: { type: "string", format: "email", example: "test@test.com" },
+            password: { type: "string", minLength: 6, example: "123456" },
+            nom: { type: "string", example: "Dupont" },
+            prenom: { type: "string", example: "Jean" }
+          }
+        },
+        LoginPayload: {
+          type: "object",
+          required: ["email", "password"],
+          properties: {
+            email: { type: "string", format: "email", example: "test@test.com" },
+            password: { type: "string", example: "123456" }
+          }
+        },
+        AuthResponse: {
+          type: "object",
+          properties: {
+            user: {
+              type: "object",
+              properties: {
+                id: { type: "integer", example: 1 },
+                email: { type: "string", example: "test@test.com" },
+                nom: { type: "string", example: "Dupont" },
+                prenom: { type: "string", example: "Jean" },
+                role: { type: "string", example: "USER" }
+              }
+            },
+            token: { type: "string", example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." }
+          }
+        },
+        // Magasin schemas
         MagasinCreatePayload: {
           type: "object",
           additionalProperties: false,

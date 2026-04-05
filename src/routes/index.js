@@ -5,11 +5,11 @@ import employeRoutes from "./employe.routes.js"
 import venteRoutes from "./vente.routes.js";
 import produitRoutes from "./produit.routes.js";
 import categorieRoutes from "./categorie.routes.js";
+import authRoutes from "./auth.routes.js";
 
-// Créez le router directement ici
 const router = express.Router();
 
-// Montez vos sous-routes UNE SEULE FOIS chacune
+router.use("/auth", authRoutes);
 router.use("/magasins", magasinRoutes);
 router.use("/produits", produitRoutes);
 router.use("/employes", employeRoutes);
